@@ -16,10 +16,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<DashboardPlaceholder />} />
-          <Route path="utilities" element={<UtilitiesPlaceholder />} />
-          <Route path="rewards" element={<RewardsPlaceholder />} />
-          <Route path="profile" element={<ProfilePlaceholder />} />
+          <Route index element={<Dashboard />} />
+          <Route path="utilities" element={<Utilities />} />
+          <Route path="rewards" element={<Rewards />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </Router>
