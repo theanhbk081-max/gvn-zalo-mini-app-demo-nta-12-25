@@ -31,7 +31,7 @@ export const PRODUCTS = [
         name: 'Laptop Acer Swift X14 SFX14-71G-78S6',
         price: '35.490.000 đ',
         originalPrice: '39.990.000 đ',
-        image: 'https://product.hstatic.net/200000722513/product/swift-x-14-sfx14-72g-steel-gray-01_aa834522920c43699863266228303038_grande.png',
+        image: 'https://lh3.googleusercontent.com/d/1N3yC-tq-c5x3q7y_z4x5w6v7u8t9s0r', // Placeholder for Acer Swift
         category: 'Laptop',
         tag: 'Hot'
     },
@@ -40,7 +40,7 @@ export const PRODUCTS = [
         name: 'Laptop Gaming MSI Katana 15 B13VFK-676VN',
         price: '26.990.000 đ',
         originalPrice: '30.990.000 đ',
-        image: 'https://product.hstatic.net/200000722513/product/thumb_laptop_msi_katana_15_b13v_8830720448204630a969302196078726_grande.png',
+        image: 'https://lh3.googleusercontent.com/d/1O4zD-e5f6g7h8i9j0k1l2m3n4o5p6q', // Placeholder for MSI Katana
         category: 'Laptop',
         tag: 'Sale'
     },
@@ -49,7 +49,7 @@ export const PRODUCTS = [
         name: 'Chuột Gaming Logitech G Pro X Superlight 2',
         price: '3.290.000 đ',
         originalPrice: '3.890.000 đ',
-        image: 'https://product.hstatic.net/200000722513/product/vn_mouse_pro_x_superlight_2_black_gallery_1_2d790757788444a78728489582570075_grande.jpg',
+        image: 'https://lh3.googleusercontent.com/d/1P5aE-r6s7t8u9v0w1x2y3z4a5b6c7d', // Placeholder for Logitech Mouse
         category: 'Gear',
         tag: 'New'
     },
@@ -58,7 +58,7 @@ export const PRODUCTS = [
         name: 'Bàn phím cơ AKKO 5075B Plus Naruto',
         price: '2.490.000 đ',
         originalPrice: '2.990.000 đ',
-        image: 'https://product.hstatic.net/200000722513/product/ban-phim-co-akko-5075b-plus-naruto-1_72d5d444405345339622564475510006_grande.jpg',
+        image: 'https://lh3.googleusercontent.com/d/1Q6bF-s7t8u9v0w1x2y3z4a5b6c7d', // Placeholder for Keyboard
         category: 'Gear',
         tag: 'Limited'
     }
@@ -85,6 +85,19 @@ export const VOUCHERS = [
         description: 'Tối đa 200K cho chuột, phím, tai nghe',
         points: 300,
         image: 'https://img.freepik.com/free-vector/flat-design-gift-voucher_23-2148895924.jpg'
+    }
+];
+
+export const NEWS = [
+    {
+        id: 1,
+        title: 'Siêu Sale 12.12 - Săn Deal Khủng',
+        image: 'https://img.freepik.com/free-vector/gradient-12-12-sale-background_23-2149150446.jpg'
+    },
+    {
+        id: 2,
+        title: 'Review Laptop Gaming Tốt Nhất 2024',
+        image: 'https://img.freepik.com/free-photo/gamer-playing-with-computer_23-2147963155.jpg'
     }
 ];
 
