@@ -2,116 +2,136 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight, Check } from 'lucide-react';
 
 const SlideToConfirm = ({ onConfirm }) => {
-    const [isConfirmed, setIsConfirmed] = useState(false);
-    const [sliderValue, setSliderValue] = useState(0);
-    const sliderRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [position, setPosition] = useState(0);
+    const [confirmed, setConfirmed] = useState(false);
     const containerRef = useRef(null);
+    const sliderWidth = 50;
 
-    const handleMouseMove = (e) => {
-        if (isConfirmed) return;
-        if (e.buttons !== 1) return; // Only if mouse button is down
-
-        const container = containerRef.current;
-        if (!container) return;
-
-        const rect = container.getBoundingClientRect();
-        const x = Math.max(0, Math.min(e.clientX - rect.left - 25, rect.width - 50));
-        const percentage = (x / (rect.width - 50)) * 100;
-
-        setSliderValue(percentage);
-
-        if (percentage >= 95) {
-            setIsConfirmed(true);
-            setSliderValue(100);
-            if (onConfirm) onConfirm();
-        }
+    const handleStart = (clientX) => {
+        if (confirmed) return;
+        setIsDragging(true);
     };
 
-    const handleTouchMove = (e) => {
-        if (isConfirmed) return;
-
-        const container = containerRef.current;
-        if (!container) return;
-
-        const rect = container.getBoundingClientRect();
-        const touch = e.touches[0];
-        const x = Math.max(0, Math.min(touch.clientX - rect.left - 25, rect.width - 50));
-        const percentage = (x / (rect.width - 50)) * 100;
-
-        setSliderValue(percentage);
-
-        if (percentage >= 95) {
-            setIsConfirmed(true);
-            setSliderValue(100);
-            if (onConfirm) onConfirm();
-        }
+    const handleMove = (clientX) => {
+        if (!isDragging || confirmed || !containerRef.current) return;
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const maxPos = containerRect.width - sliderWidth;
+        const newPos = Math.max(0, Math.min(clientX - containerRect.left - sliderWidth / 2, maxPos));
+        setPosition(newPos);
     };
 
     const handleEnd = () => {
-        if (!isConfirmed) {
-            setSliderValue(0);
+        if (!isDragging || confirmed || !containerRef.current) return;
+        setIsDragging(false);
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const maxPos = containerRect.width - sliderWidth;
+
+        if (position > maxPos * 0.9) {
+            setPosition(maxPos);
+            setConfirmed(true);
+            setTimeout(() => {
+                onConfirm();
+                setConfirmed(false);
+                setPosition(0);
+            }, 500);
+        } else {
+            setPosition(0);
         }
     };
+
+    // Mouse events
+    const onMouseDown = (e) => handleStart(e.clientX);
+    const onMouseMove = (e) => handleMove(e.clientX);
+    const onMouseUp = () => handleEnd();
+
+    // Touch events
+    const onTouchStart = (e) => handleStart(e.touches[0].clientX);
+    const onTouchMove = (e) => handleMove(e.touches[0].clientX);
+    const onTouchEnd = () => handleEnd();
+
+    useEffect(() => {
+        if (isDragging) {
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+            window.addEventListener('touchmove', onTouchMove);
+            window.addEventListener('touchend', onTouchEnd);
+        } else {
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+            window.removeEventListener('touchmove', onTouchMove);
+            window.removeEventListener('touchend', onTouchEnd);
+        }
+        return () => {
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+            window.removeEventListener('touchmove', onTouchMove);
+            window.removeEventListener('touchend', onTouchEnd);
+        };
+    }, [isDragging]);
 
     return (
         <div
             ref={containerRef}
             style={{
-                position: 'relative',
                 width: '100%',
                 height: '50px',
-                background: isConfirmed ? 'var(--color-success)' : 'var(--color-surface)',
+                background: '#eee',
                 borderRadius: '25px',
-                border: '1px solid var(--color-border)',
+                position: 'relative',
                 overflow: 'hidden',
-                userSelect: 'none',
-                touchAction: 'none',
-                transition: 'background 0.3s',
+                userSelect: 'none'
             }}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleEnd}
-            onMouseLeave={handleEnd}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleEnd}
         >
             <div style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
                 width: '100%',
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: isConfirmed ? 'white' : 'var(--color-text-secondary)',
                 fontSize: '14px',
                 fontWeight: 'bold',
-                pointerEvents: 'none',
+                color: '#999',
+                zIndex: 1
             }}>
-                {isConfirmed ? 'Đã xác nhận' : 'Trượt để dùng ngay'}
+                {confirmed ? 'Đã xác nhận!' : 'Trượt để đổi quà'}
             </div>
 
             <div
-                ref={sliderRef}
                 style={{
                     position: 'absolute',
-                    top: '2px',
-                    left: `calc(${sliderValue}% + 2px)`,
-                    width: '46px',
-                    height: '46px',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: `${position + sliderWidth}px`,
+                    background: confirmed ? '#4CAF50' : '#E31F26',
+                    borderRadius: '25px',
+                    transition: isDragging ? 'none' : 'width 0.3s ease, background 0.3s'
+                }}
+            />
+
+            <div
+                onMouseDown={onMouseDown}
+                onTouchStart={onTouchStart}
+                style={{
+                    width: `${sliderWidth}px`,
+                    height: `${sliderWidth}px`,
                     background: 'white',
                     borderRadius: '50%',
+                    position: 'absolute',
+                    left: `${position}px`,
+                    top: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: isConfirmed ? 'var(--color-success)' : 'var(--color-primary)',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
                     cursor: 'grab',
-                    transform: isConfirmed ? 'translateX(-100%)' : 'none', // Adjust position when confirmed if needed, but percentage handles it
-                    marginLeft: isConfirmed ? '-4px' : '0', // Minor adjustment
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    zIndex: 2,
+                    transition: isDragging ? 'none' : 'left 0.3s ease'
                 }}
             >
-                {isConfirmed ? <Check size={24} /> : <ChevronRight size={24} />}
+                {confirmed ? <Check size={24} color="#4CAF50" /> : <ChevronRight size={24} color="#E31F26" />}
             </div>
         </div>
     );

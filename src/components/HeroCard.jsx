@@ -1,86 +1,98 @@
 import React from 'react';
-import { QrCode, ChevronRight } from 'lucide-react';
+import { Star, Gift, Phone, ChevronRight } from 'lucide-react';
 
-const HeroCard = ({ rank = "ELITE", points = 1250, nextRankPoints = 2000 }) => {
-    const progress = (points / nextRankPoints) * 100;
-
+const HeroCard = ({ rank = "Member", points = 0 }) => {
     return (
         <div style={{
-            background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+            background: 'white',
             borderRadius: '16px',
-            padding: '20px',
+            padding: '16px',
+            marginTop: '-60px', // Negative margin to overlap header
+            marginLeft: '16px',
+            marginRight: '16px',
             position: 'relative',
-            overflow: 'hidden',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            zIndex: 20,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
         }}>
-            {/* Background decoration */}
-            <div style={{
-                position: 'absolute',
-                top: '-50%',
-                right: '-20%',
-                width: '200px',
-                height: '200px',
-                background: 'radial-gradient(circle, rgba(227, 31, 38, 0.2) 0%, transparent 70%)',
-                borderRadius: '50%',
-                pointerEvents: 'none',
-            }} />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                <div>
-                    <span style={{
-                        fontSize: '12px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        color: 'var(--color-text-secondary)'
-                    }}>
-                        Member Rank
-                    </span>
-                    <h2 style={{
-                        fontSize: '32px',
-                        fontWeight: '800',
-                        background: 'linear-gradient(to right, #fff, #999)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        margin: '4px 0',
-                        fontFamily: 'var(--font-mono)'
-                    }}>
-                        {rank}
-                    </h2>
-                </div>
-                <div style={{
-                    background: 'white',
-                    padding: '8px',
-                    borderRadius: '8px',
-                    cursor: 'pointer'
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <h2 style={{
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    color: 'var(--color-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
                 }}>
-                    <QrCode size={32} color="black" />
+                    {rank}
+                </h2>
+
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    background: '#E0F7FA',
+                    padding: '4px 12px',
+                    borderRadius: '16px',
+                    color: '#006064',
+                    fontWeight: 'bold',
+                    fontSize: '14px'
+                }}>
+                    <div style={{ background: '#4DD0E1', borderRadius: '50%', padding: '2px' }}>
+                        <Star size={12} color="white" fill="white" />
+                    </div>
+                    {points}
+                    <ChevronRight size={14} />
                 </div>
             </div>
 
-            <div style={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                <span style={{ color: 'var(--color-text)' }}>{points} PTS</span>
-                <span style={{ color: 'var(--color-text-secondary)' }}>Next: {nextRankPoints} PTS</span>
-            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                        width: '48px',
+                        height: '48px',
+                        borderRadius: '50%',
+                        background: '#FFEBEE',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--color-primary)'
+                    }}>
+                        <Star size={24} />
+                    </div>
+                    <span style={{ fontSize: '12px', fontWeight: '500' }}>Tích điểm</span>
+                </div>
 
-            <div style={{
-                width: '100%',
-                height: '6px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '4px',
-                overflow: 'hidden'
-            }}>
-                <div style={{
-                    width: `${progress}%`,
-                    height: '100%',
-                    background: 'var(--gradient-primary)',
-                    borderRadius: '4px',
-                    boxShadow: '0 0 10px var(--color-primary)'
-                }} />
-            </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                        width: '48px',
+                        height: '48px',
+                        borderRadius: '50%',
+                        background: '#FFEBEE',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--color-primary)'
+                    }}>
+                        <Gift size={24} />
+                    </div>
+                    <span style={{ fontSize: '12px', fontWeight: '500' }}>Ưu đãi</span>
+                </div>
 
-            <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: 'var(--color-text-secondary)' }}>
-                <span>Cập nhật lần cuối: 10:30 AM</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                        width: '48px',
+                        height: '48px',
+                        borderRadius: '50%',
+                        background: '#FFEBEE',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--color-primary)'
+                    }}>
+                        <Phone size={24} />
+                    </div>
+                    <span style={{ fontSize: '12px', fontWeight: '500' }}>Liên hệ</span>
+                </div>
             </div>
         </div>
     );

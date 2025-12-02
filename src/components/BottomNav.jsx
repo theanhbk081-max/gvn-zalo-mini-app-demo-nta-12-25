@@ -1,13 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { Home, Wrench, Gift, User } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const BottomNav = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const navItems = [
-        { path: '/', icon: Home, label: 'Home' },
-        { path: '/utilities', icon: Wrench, label: 'Dịch vụ' },
-        { path: '/rewards', icon: Gift, label: 'Loot đồ' },
-        { path: '/profile', icon: User, label: 'Tài khoản' },
+        { id: 'home', icon: Home, label: 'Trang chủ', path: '/' },
+        { id: 'utilities', icon: Wrench, label: 'Danh mục', path: '/utilities' },
+        { id: 'rewards', icon: Gift, label: 'Giỏ hàng', path: '/rewards' }, // Renamed for demo
+        { id: 'profile', icon: User, label: 'Cá nhân', path: '/profile' },
     ];
 
     return (
@@ -16,45 +19,44 @@ const BottomNav = () => {
             bottom: 0,
             left: 0,
             right: 0,
-            height: '70px',
-            backgroundColor: 'var(--color-surface)',
-            borderTop: '1px solid var(--color-border)',
+            background: 'white',
+            borderTop: '1px solid #eee',
+            padding: '8px 16px',
+            paddingBottom: '24px', // Safe area for iPhone
             display: 'flex',
             justifyContent: 'space-around',
             alignItems: 'center',
-            zIndex: 1000,
-            paddingBottom: 'env(safe-area-inset-bottom)', // Handle iPhone X notch
+            zIndex: 100,
+            boxShadow: '0 -4px 10px rgba(0,0,0,0.05)'
         }}>
-            {navItems.map((item) => (
-                <NavLink
-                    key={item.path}
-                    to={item.path}
-                    style={({ isActive }) => ({
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textDecoration: 'none',
-                        color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-                        fontSize: '10px',
-                        fontWeight: isActive ? '600' : '400',
-                        transition: 'color 0.2s ease',
-                        width: '100%',
-                        height: '100%',
-                    })}
-                >
-                    {({ isActive }) => (
-                        <>
-                            <item.icon
-                                size={24}
-                                strokeWidth={isActive ? 2.5 : 2}
-                                style={{ marginBottom: '4px' }}
-                            />
-                            <span>{item.label}</span>
-                        </>
-                    )}
-                </NavLink>
-            ))}
+            {navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                    <button
+                        key={item.id}
+                        onClick={() => navigate(item.path)}
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '4px',
+                            color: isActive ? 'var(--color-primary)' : '#999',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            minWidth: '60px'
+                        }}
+                    >
+                        <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                        <span style={{
+                            fontSize: '10px',
+                            fontWeight: isActive ? '600' : '400'
+                        }}>
+                            {item.label}
+                        </span>
+                    </button>
+                );
+            })}
         </nav>
     );
 };
