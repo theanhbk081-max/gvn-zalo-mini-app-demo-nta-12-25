@@ -1,5 +1,4 @@
-import React from 'react';
-import { Bell, AlertTriangle } from 'lucide-react';
+import { Bell, TriangleAlert } from 'lucide-react';
 
 const Header = ({ userName = "Gamer" }) => {
     const handleSOS = () => {
@@ -50,7 +49,7 @@ const Header = ({ userName = "Gamer" }) => {
                         boxShadow: 'var(--shadow-glow)',
                     }}
                 >
-                    <AlertTriangle size={20} />
+                    <TriangleAlert size={20} />
                 </button>
             </div>
         </header>

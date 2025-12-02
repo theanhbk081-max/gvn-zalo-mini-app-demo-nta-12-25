@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import HeroCard from '../components/HeroCard';
+import MyRig from '../components/MyRig';
 import ServiceStatus from '../components/ServiceStatus';
 
 const Dashboard = () => {

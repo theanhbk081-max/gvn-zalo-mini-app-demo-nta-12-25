@@ -1,5 +1,7 @@
-
+import React from 'react';
 import BookingForm from '../components/BookingForm';
+import WarrantyVault from '../components/WarrantyVault';
+import RMATracking from '../components/RMATracking';
 
 const Utilities = () => {
     return (
